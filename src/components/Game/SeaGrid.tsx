@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import './SeaGrid.css'; // Assuming you have this CSS file for styles
 import sound from './splash.mp3';
+import sea from './sea.mp3';
+import cannon from './cannon.wav';
 
 const GRID_COLUMNS = 55; // 55 columns
 const GRID_ROWS = 33; // 33 rows
@@ -26,6 +28,14 @@ export const SeaGrid = () => {
     );
 
     const audio = new Audio(sound);
+    const cannonSound = new Audio(cannon);
+    const seaSound = new Audio(sea);
+
+    useEffect(() => {
+        seaSound.play();
+    }, []);
+
+
 
     // Ship state
     const [ships] = useState<Ship[]>(INITIAL_SHIPS);
@@ -79,6 +89,7 @@ export const SeaGrid = () => {
                             onClick={() => {
                                 if (grid[rowIndex][colIndex]) return;
                                 audio.play();
+                                cannonSound.play();
                                 return handleCellClick(rowIndex, colIndex);
                             }}
                         ></div>
