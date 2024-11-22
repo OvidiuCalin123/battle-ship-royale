@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import './SeaGrid.css'; // Assuming you have this CSS file for styles
+import sound from './splash.mp3';
 
 const GRID_COLUMNS = 55; // 55 columns
 const GRID_ROWS = 33; // 33 rows
@@ -24,14 +25,21 @@ export const SeaGrid = () => {
             .map(() => Array(GRID_COLUMNS).fill(false))
     );
 
+    const audio = new Audio(sound);
+
     // Ship state
     const [ships] = useState<Ship[]>(INITIAL_SHIPS);
 
-    // Handle the click on a cell to toggle its color
+
+    // Handle the click on a cell to set it red if not already red
     const handleCellClick = (row: number, col: number) => {
+        // If the cell is already red, do nothing
+        if (grid[row][col]) return;
+
+        // Update the grid
         const newGrid = grid.map((r, rowIndex) =>
             r.map((cell, colIndex) =>
-                rowIndex === row && colIndex === col ? !cell : cell
+                rowIndex === row && colIndex === col ? true : cell
             )
         );
         setGrid(newGrid); // Update the state with the modified grid
@@ -68,7 +76,11 @@ export const SeaGrid = () => {
                         <div
                             key={`${rowIndex}-${colIndex}`}
                             className={`sea-grid-grid-cell ${isRed ? "red" : "blue"}`}
-                            onClick={() => handleCellClick(rowIndex, colIndex)}
+                            onClick={() => {
+                                if (grid[rowIndex][colIndex]) return;
+                                audio.play();
+                                return handleCellClick(rowIndex, colIndex);
+                            }}
                         ></div>
                     ))
                 )}
