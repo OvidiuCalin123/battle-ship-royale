@@ -1,0 +1,89 @@
+/* Main SeaGrid container */
+.sea-gridsea-grid-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 2rem;
+  padding: 1rem;
+  font-family: Arial, sans-serif;
+}
+
+/* Ships container (on the left) */
+.sea-gridships-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 200px;
+  background-color: #ffffff;
+  border: 2px solid #dcdcdc;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.sea-gridships-container h2 {
+  font-size: 1.5rem;
+  color: #333;
+  margin: 0;
+}
+
+/* Individual ship */
+.sea-gridship {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  width: 100%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.sea-gridship-name {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #555;
+}
+
+/* Ship cells representation */
+.sea-gridship-cells {
+  display: flex;
+  flex-direction: row;
+  gap: 2px;
+}
+
+.sea-gridship-cell {
+  width: 20px;
+  height: 20px;
+  background-color: navy;
+  border: 1px solid white;
+  box-sizing: border-box;
+}
+
+/* Grid container */
+.sea-grid-grid-container {
+  display: grid;
+  grid-template-columns: repeat(55, 19px); /* Adjust to fit 55 columns */
+  grid-template-rows: repeat(33, 19px); /* Adjust to fit 33 rows */
+  gap: 1px;
+  background-color: #0077b6;
+  border: 2px solid #004c75;
+  border-radius: 8px;
+}
+
+/* Grid cells */
+.sea-grid-grid-cell {
+  width: 19px;
+  height: 19px;
+  box-sizing: border-box;
+  background-color: #90e0ef; /* Blue for non-clicked */
+  transition: background-color 0.3s ease;
+}
+
+.sea-grid-grid-cell.red {
+  background-color: #e63946; /* Red when clicked */
+}

@@ -1,0 +1,45 @@
+.player-grid-container {
+  display: flex;
+  gap: 1rem;
+}
+
+.ships-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.ship {
+  display: flex;
+  gap: 2px;
+}
+
+.ship-cell {
+  width: 30px;
+  height: 30px;
+  background-color: navy;
+  border: 1px solid white;
+  box-sizing: border-box;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(15, 30px);
+  grid-template-rows: repeat(15, 30px);
+  gap: 2px;
+}
+
+.grid-cell {
+  width: 30px;
+  height: 30px;
+  border: 1px solid lightgray;
+  box-sizing: border-box;
+}
+
+.grid-cell.empty {
+  background-color: #90e0ef;
+}
+
+.grid-cell.filled {
+  background-color: navy;
+}

@@ -1,0 +1,77 @@
+/* Main Container */
+.place-ships-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Full viewport height */
+    gap: 2rem; /* Spacing between the title and grid */
+    font-family: Arial, sans-serif;
+}
+
+/* Title Row */
+.title-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem; /* Spacing between title and indicators */
+    position: relative; /* Positioning for alignment */
+}
+
+/* Title */
+.title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 0;
+    color: #ffffff;
+    text-align: center;
+}
+
+/* Status Indicator Container */
+.status-indicator-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Status Indicator */
+.status-indicator {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: red; /* Default: Not Ready */
+    border: 2px solid black;
+}
+
+.status-indicator.ready {
+    background-color: green; /* Ready */
+}
+
+/* Game Layout */
+.game-layout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 1400px; /* Restrict maximum width */
+    gap: 2rem; /* Spacing between Player Info and Grid */
+}
+
+/* Player Info Section */
+.player-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.player-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.player-name {
+    font-size: 1.;
+}
