@@ -6,6 +6,7 @@ export const PlayerStart = () => {
     const [loading, setLoading] = useState(false);
     const [joined, setJoined] = useState(false);
     const [error, setError] = useState('');
+    const [enemyPlayerName, setEnemyPlayerName] = useState('');
     const [pollingInterval, setPollingInterval] = useState<ReturnType<typeof setInterval> | undefined>(undefined);
 
     const handleInputChange = (e: any) => {
@@ -40,9 +41,7 @@ export const PlayerStart = () => {
 
             const data: any = await response.text();
 
-            debugger;
-
-            if (data['status'] === 'Player accepted' /*'Player accepted'*/) {
+            if (JSON.parse(data).status === 'Player accepted') {
                 const intervalId = setInterval(async () => {
                     try {
                         const getResponse = await fetch('https://battleshiproyale.onrender.com/api/v1/session/join', {
@@ -50,11 +49,24 @@ export const PlayerStart = () => {
                         });
                         const getData = await getResponse.text();
 
-                        debugger;
-                        if (getData === '0') {
+                        const delay = (ms: any) => {
+                            return new Promise(resolve => setTimeout(resolve, ms));
+                        }
+
+                        if (JSON.parse(getData)?.playerIds?.length == 2) {
+                            const enemyNameArray = JSON.parse(getData)?.playerIds
+                                ?.filter((playersNames: any) => playersNames !== playerName)
+                            setEnemyPlayerName(enemyNameArray[0]);
                             setJoined(true);
                             clearInterval(pollingInterval);
                             setPollingInterval(undefined);
+
+                            await delay(3000);
+
+                            await fetch(`https://battleshiproyale.onrender.com/api/v1/session/join/delete`, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                            });
                         }
                         console.log('Polling Response:', getData);
                     } catch (err) {
@@ -77,7 +89,7 @@ export const PlayerStart = () => {
     };
 
     if (joined) {
-        return <PlaceShips playerName={playerName} />;
+        return <PlaceShips playerName={playerName} enemyPlayerName={enemyPlayerName} />;
     }
 
     return (

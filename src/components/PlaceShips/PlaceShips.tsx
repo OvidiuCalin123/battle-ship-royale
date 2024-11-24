@@ -6,7 +6,7 @@ import { SeaGrid } from '../Game/SeaGrid';
 const GRID_COLUMNS = 10; // 15 columns
 const GRID_ROWS = 10; // 15 rows
 
-export const PlaceShips = ({ playerName }: { playerName: string }) => {
+export const PlaceShips = ({ playerName, enemyPlayerName }: { playerName: string, enemyPlayerName: string }) => {
     const [isReady, setIsReady] = useState(false);
     const [showSeaGrid, setShowSeaGrid] = useState(false);
 
@@ -66,7 +66,7 @@ export const PlaceShips = ({ playerName }: { playerName: string }) => {
                     <div className="player-info">
                         <div className="player-header">
                             <div className="player-name">
-                                <strong>Player 2:</strong> OtherPlayerName
+                                <strong>Player 2:</strong> {enemyPlayerName}
                             </div>
                         </div>
                     </div>
