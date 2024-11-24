@@ -3,9 +3,14 @@ import { PlayerGrid } from './PlayerGrid';
 import './PlaceShips.css';
 import { SeaGrid } from '../Game/SeaGrid';
 
+const GRID_COLUMNS = 10; // 15 columns
+const GRID_ROWS = 10; // 15 rows
+
 export const PlaceShips = ({ playerName }: { playerName: string }) => {
     const [isReady, setIsReady] = useState(false);
     const [showSeaGrid, setShowSeaGrid] = useState(false);
+
+    const [grid, setGrid] = useState<number[][]>(Array(GRID_ROWS).fill(null).map(() => Array(GRID_COLUMNS).fill(0)));
 
     const handleReadyClick = () => {
         if (!isReady) {
@@ -54,7 +59,7 @@ export const PlaceShips = ({ playerName }: { playerName: string }) => {
 
                     {/* Center: Game Grid */}
                     <div className="game-grid">
-                        <PlayerGrid />
+                        <PlayerGrid grid={grid} setGrid={setGrid} />
                     </div>
 
                     {/* Right: Player 2 Info */}

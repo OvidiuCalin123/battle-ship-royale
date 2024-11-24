@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import './PlayerGrid.css'; // Assuming you have this CSS file for styles
 
-const GRID_COLUMNS = 15; // 15 columns
-const GRID_ROWS = 15; // 15 rows
+const GRID_COLUMNS = 10;
 
 interface Ship {
     id: number;
@@ -16,8 +15,12 @@ const INITIAL_SHIPS: Ship[] = [
     { id: 3, size: 5, name: 'Battleship' },
 ];
 
-export const PlayerGrid: React.FC = () => {
-    const [grid, setGrid] = useState<number[][]>(Array(GRID_ROWS).fill(null).map(() => Array(GRID_COLUMNS).fill(0)));
+type PlayerGridProps = {
+    grid: any;
+    setGrid: any;
+}
+
+export const PlayerGrid = ({ grid, setGrid }: PlayerGridProps) => {
     const [ships, setShips] = useState<Ship[]>(INITIAL_SHIPS);
     const [draggingShip, setDraggingShip] = useState<Ship | null>(null);
     const [pickedUpShip, setPickedUpShip] = useState<{ ship: Ship; startRow: number; startCol: number } | null>(null);
@@ -96,8 +99,8 @@ export const PlayerGrid: React.FC = () => {
                 className="grid-container"
                 onDragOver={(e) => e.preventDefault()}
             >
-                {grid.map((row, rowIndex) =>
-                    row.map((cell, colIndex) => (
+                {grid.map((row: any, rowIndex: any) =>
+                    row.map((cell: any, colIndex: any) => (
                         <div
                             key={`${rowIndex}-${colIndex}`}
                             className={`grid-cell ${cell === 0 ? "empty" : "filled"}`}

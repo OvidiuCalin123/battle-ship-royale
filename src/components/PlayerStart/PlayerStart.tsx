@@ -1,26 +1,83 @@
-// src/components/PlayerStart.tsx
-import React, { useState } from 'react';
-import { PlaceShips } from '../PlaceShips/PlaceShips'; // Correctly import PlaceShips
+import { useEffect, useState } from 'react';
+import { PlaceShips } from '../PlaceShips/PlaceShips';
 
 export const PlayerStart = () => {
     const [playerName, setPlayerName] = useState('');
     const [loading, setLoading] = useState(false);
     const [joined, setJoined] = useState(false);
+    const [error, setError] = useState('');
+    const [pollingInterval, setPollingInterval] = useState<ReturnType<typeof setInterval> | undefined>(undefined);
 
     const handleInputChange = (e: any) => {
         setPlayerName(e.target.value);
     };
 
-    const handleJoinGame = () => {
+    const stopPolling = () => {
+        if (pollingInterval) {
+            clearInterval(pollingInterval);
+            setPollingInterval(undefined);
+        }
+    };
+
+    useEffect(() => {
+        return () => stopPolling();
+    }, [pollingInterval]);
+
+    const handleJoinGame = async () => {
+        if (!playerName) {
+            setError('Player name cannot be empty.');
+            return;
+        }
+        setError('');
         setLoading(true);
-        setTimeout(() => {
-            setLoading(false);
-            setJoined(true);
-        }, 2000);
+
+        try {
+            const response = await fetch(`https://battleshiproyale.onrender.com/api/v1/session/join/${playerName}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ playerName }),
+            });
+
+            const data: any = await response.text();
+
+            debugger;
+
+            if (data['status'] === 'Player accepted' /*'Player accepted'*/) {
+                const intervalId = setInterval(async () => {
+                    try {
+                        const getResponse = await fetch('https://battleshiproyale.onrender.com/api/v1/session/join', {
+                            method: 'GET',
+                        });
+                        const getData = await getResponse.text();
+
+                        debugger;
+                        if (getData === '0') {
+                            setJoined(true);
+                            clearInterval(pollingInterval);
+                            setPollingInterval(undefined);
+                        }
+                        console.log('Polling Response:', getData);
+                    } catch (err) {
+                        console.error('Error during polling:', err);
+                    }
+                }, 2000);
+
+                setPollingInterval(intervalId);
+            } else if (data === 'Session full') {
+                setLoading(true);
+                setError('Session is full. Please try again later.');
+            } else {
+                setLoading(true);
+                setError('Unexpected response from the server.');
+            }
+        } catch (err) {
+            setLoading(true);
+            setError('Failed to join the session. Please try again.');
+        }
     };
 
     if (joined) {
-        return <PlaceShips playerName={playerName} />;  // Use PlaceShips when game is joined
+        return <PlaceShips playerName={playerName} />;
     }
 
     return (
