@@ -24,6 +24,40 @@ export const PlayerStart = () => {
         return () => stopPolling();
     }, [pollingInterval]);
 
+    const deleteSession = () => {
+        const url = 'https://battleshiproyale.onrender.com/api/v1/session/join/delete';
+        const data = { playerName };
+
+        if (navigator.sendBeacon) {
+            const payload = JSON.stringify(data);
+            navigator.sendBeacon(url, payload);
+            console.log('Session deletion request sent.');
+        } else {
+            console.log('sendBeacon not supported. Using fetch instead.');
+            fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            }).catch(err => console.error('Error during session deletion:', err));
+        }
+    };
+
+    useEffect(() => {
+        const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+            event.preventDefault();
+            event.returnValue = '';
+            deleteSession();
+
+            return '';
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, [playerName]);
+
     const handleJoinGame = async () => {
         if (!playerName) {
             setError('Player name cannot be empty.');
@@ -38,9 +72,7 @@ export const PlayerStart = () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ playerName }),
             });
-
             const data: any = await response.text();
-
             if (JSON.parse(data).status === 'Player accepted') {
                 const intervalId = setInterval(async () => {
                     try {
@@ -51,11 +83,11 @@ export const PlayerStart = () => {
 
                         const delay = (ms: any) => {
                             return new Promise(resolve => setTimeout(resolve, ms));
-                        }
+                        };
 
                         if (JSON.parse(getData)?.playerIds?.length == 2) {
                             const enemyNameArray = JSON.parse(getData)?.playerIds
-                                ?.filter((playersNames: any) => playersNames !== playerName)
+                                ?.filter((playersNames: any) => playersNames !== playerName);
                             setEnemyPlayerName(enemyNameArray[0]);
                             setJoined(true);
                             clearInterval(pollingInterval);
@@ -75,7 +107,7 @@ export const PlayerStart = () => {
                 }, 2000);
 
                 setPollingInterval(intervalId);
-            } else if (data === 'Session full') {
+            } else if (JSON.parse(data).status === 'Session full') {
                 setLoading(true);
                 setError('Session is full. Please try again later.');
             } else {
