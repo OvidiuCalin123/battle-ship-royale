@@ -10,8 +10,8 @@ interface Ship {
 }
 
 const INITIAL_SHIPS: Ship[] = [
-    { id: 1, size: 3, name: 'Destroyer' },
-    { id: 2, size: 4, name: 'Submarine' },
+    { id: 1, size: 2, name: 'Destroyer' },
+    { id: 2, size: 3, name: 'Submarine' },
     { id: 3, size: 5, name: 'Battleship' },
 ];
 

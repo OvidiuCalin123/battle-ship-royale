@@ -25,7 +25,7 @@ export const PlayerStart = () => {
     }, [pollingInterval]);
 
     const deleteSession = () => {
-        const url = 'https://battleshiproyale.onrender.com/api/v1/session/join/delete';
+        const url = 'https://battleshiproyale.onrender.com/api/v1/session/join';
         const data = { playerName };
 
         if (navigator.sendBeacon) {
@@ -35,7 +35,7 @@ export const PlayerStart = () => {
         } else {
             console.log('sendBeacon not supported. Using fetch instead.');
             fetch(url, {
-                method: 'POST',
+                method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
             }).catch(err => console.error('Error during session deletion:', err));
@@ -65,9 +65,8 @@ export const PlayerStart = () => {
         }
         setError('');
         setLoading(true);
-
         try {
-            const response = await fetch(`https://battleshiproyale.onrender.com/api/v1/session/join/${playerName}`, {
+            const response = await fetch(`https://battleshiproyale.onrender.com/api/v1/session/join?player_id=${playerName}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ playerName }),
@@ -95,8 +94,8 @@ export const PlayerStart = () => {
 
                             await delay(3000);
 
-                            await fetch(`https://battleshiproyale.onrender.com/api/v1/session/join/delete`, {
-                                method: 'POST',
+                            await fetch(`https://battleshiproyale.onrender.com/api/v1/session/join`, {
+                                method: 'DELETE',
                                 headers: { 'Content-Type': 'application/json' },
                             });
                         }
