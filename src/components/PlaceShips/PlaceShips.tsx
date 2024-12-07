@@ -84,7 +84,7 @@ export const PlaceShips = ({ playerName, enemyPlayerName }: { playerName: string
                 {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ shipsFULL }),
+                    body: JSON.stringify({ "ships": shipsFULL }),
                 }
             );
 
