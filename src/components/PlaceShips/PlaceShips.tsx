@@ -84,9 +84,15 @@ export const PlaceShips = ({ playerName, enemyPlayerName }: { playerName: string
                 {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ "ships": shipsFULL }),
+                    body: JSON.stringify({ ships: shipsFULL }),
                 }
             );
+
+            await fetch(`https://battleshiproyale.onrender.com/api/v1/session/join?player_id=${playerName}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ playerName }),
+            });
 
             if (!response.ok) throw new Error('Failed to place ships');
 
@@ -99,6 +105,8 @@ export const PlaceShips = ({ playerName, enemyPlayerName }: { playerName: string
                     if (!getResponse.ok) throw new Error('Polling failed');
 
                     const getData = await getResponse.json();
+
+                    debugger;
 
                     if (getData?.length === 2) {
                         setEnemyReady(true);
