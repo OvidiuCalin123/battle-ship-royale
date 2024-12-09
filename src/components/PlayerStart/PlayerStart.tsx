@@ -92,12 +92,6 @@ export const PlayerStart = () => {
                             clearInterval(pollingInterval);
                             setPollingInterval(undefined);
 
-                            await delay(3000);
-
-                            await fetch(`https://battleshiproyale.onrender.com/api/v1/session/join`, {
-                                method: 'DELETE',
-                                headers: { 'Content-Type': 'application/json' },
-                            });
                         }
                         console.log('Polling Response:', getData);
                     } catch (err) {
