@@ -26,18 +26,20 @@ export const PlayerStart = () => {
 
     const deleteSession = () => {
         const url = 'https://battleshiproyale.onrender.com/api/v1/session/join';
-        const data = { playerName };
+
+        fetch(url, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+        }).catch(err => console.error('Error during session deletion:', err));
 
         if (navigator.sendBeacon) {
-            const payload = JSON.stringify(data);
-            navigator.sendBeacon(url, payload);
+            navigator.sendBeacon(url);
             console.log('Session deletion request sent.');
         } else {
             console.log('sendBeacon not supported. Using fetch instead.');
             fetch(url, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data),
             }).catch(err => console.error('Error during session deletion:', err));
         }
     };
@@ -80,11 +82,8 @@ export const PlayerStart = () => {
                         });
                         const getData = await getResponse.text();
 
-                        const delay = (ms: any) => {
-                            return new Promise(resolve => setTimeout(resolve, ms));
-                        };
 
-                        if (JSON.parse(getData)?.playerIds?.length == 2) {
+                        if (JSON.parse(getData)?.playerIds?.length === 2) {
                             const enemyNameArray = JSON.parse(getData)?.playerIds
                                 ?.filter((playersNames: any) => playersNames !== playerName);
                             setEnemyPlayerName(enemyNameArray[0]);

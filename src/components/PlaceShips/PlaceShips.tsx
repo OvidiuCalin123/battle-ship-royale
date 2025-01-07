@@ -100,6 +100,37 @@ export const PlaceShips = ({ playerName, enemyPlayerName }: s) => {
         }
     };
 
+    const deleteSession = () => {
+        const url = 'https://battleshiproyale.onrender.com/api/v1/session/join';
+
+        if (navigator.sendBeacon) {
+            navigator.sendBeacon(url);
+            console.log('Session deletion request sent.');
+        } else {
+            console.log('sendBeacon not supported. Using fetch instead.');
+            fetch(url, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+            }).catch(err => console.error('Error during session deletion:', err));
+        }
+    };
+
+    useEffect(() => {
+        const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+            event.preventDefault();
+            event.returnValue = '';
+            deleteSession();
+
+            return '';
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, [playerName]);
+
     return showSeaGrid ? (
         <SeaGrid />
     ) : (
