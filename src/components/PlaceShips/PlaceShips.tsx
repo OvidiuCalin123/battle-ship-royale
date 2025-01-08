@@ -132,7 +132,7 @@ export const PlaceShips = ({ playerName, enemyPlayerName }: s) => {
     }, [playerName]);
 
     return showSeaGrid ? (
-        <SeaGrid />
+        <SeaGrid playerID={playerName} />
     ) : (
         <div className="place-ships-container">
             <div className="title-row">

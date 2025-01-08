@@ -7,8 +7,6 @@ function App() {
     <div className="App">
       <header className="App-header">
         <PlayerStart />
-        {/* <PlaceShips />
-        <PlaceShips /> */}
       </header>
     </div>
   );

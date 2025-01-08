@@ -87,3 +87,20 @@
 .sea-grid-grid-cell.red {
   background-color: #e63946; /* Red when clicked */
 }
+
+.stamina-bar {
+  width: 30px;
+  height: 50%;
+  background-color: #ddd;
+  position: absolute;
+  left: 20px;
+  top: 300px;
+}
+
+.stamina-bar-fill {
+  width: 100%;
+  background-color: green;
+  position: absolute;
+  bottom: 0;
+  transition: height 0.5s;
+}
