@@ -126,6 +126,10 @@ export const PlayerStart = () => {
                 height: '100vh',
                 color: 'white',
                 padding: '20px',
+                backgroundImage: 'url("lobbyBack.jpeg")', // Add the URL of your image here
+                backgroundSize: 'cover', // Ensures the image covers the entire container
+                backgroundPosition: 'center', // Centers the image
+                backgroundRepeat: 'no-repeat',
             }}
         >
             <h1
@@ -139,84 +143,81 @@ export const PlayerStart = () => {
                     top: '20px',
                     left: '50%',
                     transform: 'translateX(-50%)',
+                    textShadow: '2px 2px 0 black, -2px 2px 0 black, 2px -2px 0 black, -2px -2px 0 black',
                 }}
             >
                 Welcome to BattleShip Royale
             </h1>
 
+
             <div
                 style={{
                     display: 'flex',
                     flexDirection: 'column',
-                    justifyContent: 'center',
                     alignItems: 'center',
-                    marginTop: '120px',
-                    width: '120%',
-                    maxWidth: '500px',
-                    padding: '20px',
-                    backgroundColor: '#333',
-                    borderRadius: '10px',
-                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.5)',
+                    justifyContent: 'center',
+                    width: '100%',
+                    maxWidth: '400px',
+                    padding: '50px',
+                    backgroundColor: '#f4f4f9', // Light background for a soft feel
+                    borderRadius: '15px',
+                    boxShadow: '0px 80px 80px rgba(0, 0, 0, 0.8)', // Soft shadow for a clean look
                 }}
             >
-                <div
+                <h1
                     style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        width: '100%',
-                        marginBottom: '60px',
+                        fontSize: '27px',
+                        color: 'rgb(212 183 255)',
+                        marginBottom: '50px',
+                        fontWeight: '700',
+                        textShadow: '2px 2px 0 black, -2px 2px 0 black, 2px -2px 0 black, -2px -2px 0 black'
                     }}
                 >
-                    <label
-                        htmlFor="player-name"
-                        style={{
-                            fontSize: '18px',
-                            color: 'white',
-                            marginRight: '10px',
-                        }}
-                    >
-                        Player Name
-                    </label>
-                    <input
-                        id="player-name"
-                        type="text"
-                        placeholder="Enter your name"
-                        value={playerName}
-                        onChange={handleInputChange}
-                        disabled={loading}
-                        style={{
-                            padding: '10px',
-                            fontSize: '16px',
-                            width: '100%',
-                            maxWidth: '300px',
-                            borderRadius: '5px',
-                            border: `1px solid ${loading ? '#888' : '#ccc'}`,
-                            backgroundColor: loading ? '#444' : '#000',
-                            color: loading ? '#bbb' : 'white',
-                            cursor: loading ? 'not-allowed' : 'text',
-                        }}
-                    />
-                </div>
+                    Player Name
+                </h1>
+
+                <input
+                    id="player-name"
+                    type="text"
+                    placeholder="Enter your name"
+                    value={playerName}
+                    onChange={handleInputChange}
+                    disabled={loading}
+                    style={{
+                        padding: '12px 20px',
+                        fontSize: '16px',
+                        width: '100%',
+                        borderRadius: '8px',
+                        border: `1px solid ${loading ? '#ccc' : '#007bff'}`, // Subtle border color
+                        backgroundColor: loading ? '#e9ecef' : '#fff', // Lighter input field
+                        color: loading ? '#888' : '#333', // Color based on loading state
+                        outline: 'none',
+                        transition: 'border 0.3s ease, box-shadow 0.3s ease',
+                        marginBottom: '50px', // More space between input and button
+                    }}
+                />
 
                 <button
                     onClick={handleJoinGame}
                     disabled={playerName.length <= 2 || loading}
                     style={{
-                        padding: '12px 20px',
+                        padding: '14px 20px',
                         fontSize: '18px',
+                        fontWeight: 'bold',
                         cursor: playerName.length > 2 && !loading ? 'pointer' : 'not-allowed',
-                        backgroundColor: playerName.length > 2 && !loading ? '#4CAF50' : '#ccc',
+                        backgroundColor: playerName.length > 2 && !loading ? '#007bff' : '#aaa', // Primary blue color
                         color: 'white',
                         border: 'none',
-                        borderRadius: '5px',
+                        borderRadius: '8px',
                         width: '100%',
-                        maxWidth: '300px',
+                        transition: 'background-color 0.3s, transform 0.2s ease',
                     }}
                 >
                     {loading ? 'Loading...' : 'Join Game'}
                 </button>
             </div>
+
+
         </div>
     );
 };

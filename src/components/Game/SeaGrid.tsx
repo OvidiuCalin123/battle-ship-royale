@@ -67,10 +67,22 @@ export const SeaGrid = ({ playerID }: { playerID: string }) => {
         return () => clearInterval(recharge);
     }, []);
 
-    const handleCellClick = (row: number, col: number) => {
+    const handleCellClick = async (row: number, col: number) => {
         if (stamina >= STAMINA_DECREMENT) {
             const cellValue = grid[row][col];
             if (cellValue === 2 || cellValue === 4) return; // Already clicked
+
+            const getResponseHit = await fetch(`https://battleshiproyale.onrender.com/api/v1/game/hit?player_id=${playerID}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ x: row, y: col })
+            });
+            if (!getResponseHit.ok) throw new Error('HMM eroare?');
+            const getData = await getResponseHit.json();
+
+            console.log(getData);
 
             const newGrid = grid.map((r, rowIndex) =>
                 r.map((cell, colIndex) => {
@@ -119,7 +131,7 @@ export const SeaGrid = ({ playerID }: { playerID: string }) => {
                     row.map((cell, colIndex) => (
                         <div
                             key={`${rowIndex}-${colIndex}`}
-                            className={`sea-grid-grid-cell ${cell === 2 ? "red" : cell === 3 ? "solid" : cell === 4 ? "clicked-solid" : ""}`}
+                            className={`sea-grid-grid-cell ${cell === 0 ? "red" : cell === 3 ? "solid" : cell === 4 ? "clicked-solid" : ""}`}
                             onClick={() => {
                                 if (stamina >= STAMINA_DECREMENT) {
                                     if (cell === 1) {

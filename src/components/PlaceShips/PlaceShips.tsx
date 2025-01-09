@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { PlayerGrid } from './PlayerGrid';
 import './PlaceShips.css';
 import { SeaGrid } from '../Game/SeaGrid';
+import lobbyBack from './placeShips.jpg';
 
 const GRID_COLUMNS = 10;
 const GRID_ROWS = 10;
@@ -134,7 +135,12 @@ export const PlaceShips = ({ playerName, enemyPlayerName }: s) => {
     return showSeaGrid ? (
         <SeaGrid playerID={playerName} />
     ) : (
-        <div className="place-ships-container">
+        <div className="place-ships-container" style={{
+            backgroundImage: `url(${lobbyBack})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+        }}>
             <div className="title-row">
                 <div className="status-indicator-container">
                     <div className={`status-indicator ${isReady ? 'ready' : 'not-ready'}`} title={isReady ? 'Ready' : 'Not Ready'} />
