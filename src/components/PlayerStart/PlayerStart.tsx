@@ -188,7 +188,7 @@ export const PlayerStart = () => {
                         fontSize: '16px',
                         width: '100%',
                         borderRadius: '8px',
-                        border: `1px solid ${loading ? '#ccc' : '#007bff'}`, // Subtle border color
+                        border: `1px solid ${loading ? 'rgb(212 183 255)' : 'rgb(212 183 255)'}`, // Subtle border color
                         backgroundColor: loading ? '#e9ecef' : '#fff', // Lighter input field
                         color: loading ? '#888' : '#333', // Color based on loading state
                         outline: 'none',
@@ -205,7 +205,7 @@ export const PlayerStart = () => {
                         fontSize: '18px',
                         fontWeight: 'bold',
                         cursor: playerName.length > 2 && !loading ? 'pointer' : 'not-allowed',
-                        backgroundColor: playerName.length > 2 && !loading ? '#007bff' : '#aaa', // Primary blue color
+                        backgroundColor: playerName.length > 2 && !loading ? 'rgb(120 29 255)' : '#aaa', // Primary blue color
                         color: 'white',
                         border: 'none',
                         borderRadius: '8px',
