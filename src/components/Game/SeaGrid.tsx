@@ -3,6 +3,8 @@ import './SeaGrid.css'; // Assuming you have this CSS file for styles
 import sound from './splash.mp3';
 import sea from './sea.mp3';
 import cannon from './cannon.wav';
+import shipExplosion from './shipExplosion.wav';
+import error from './error.wav';
 
 const GRID_COLUMNS = 55; // 55 columns
 const GRID_ROWS = 33; // 33 rows
@@ -24,46 +26,36 @@ const INITIAL_SHIPS: Ship[] = [
 
 export const SeaGrid = ({ playerID }: { playerID: string }) => {
     const [stamina, setStamina] = useState<number>(STAMINA_MAX);
-    // Initialize the grid with `false` (not red)
-    const [grid, setGrid] = useState<boolean[][]>(
-        Array(GRID_ROWS)
-            .fill(null)
-            .map(() => Array(GRID_COLUMNS).fill(false))
+    const [grid, setGrid] = useState<Number[][]>(
+        Array(GRID_ROWS).fill(1).map(() => Array(GRID_COLUMNS).fill(1)) // Initialize with '1' for water
     );
 
-
     useEffect(() => {
-        // Function to perform the fetch request
         const fetchData = async () => {
             try {
-                const getResponse = await fetch('https://battleshiproyale.onrender.com/api/v1/game/state?player_id=' + playerID, { method: 'GET' });
+                const getResponse = await fetch(`https://battleshiproyale.onrender.com/api/v1/game/state?player_id=${playerID}`, { method: 'GET' });
                 if (!getResponse.ok) throw new Error('Polling failed');
                 const getData = await getResponse.json();
-                console.log('Polling Response:', getData);
-                // You can update state here if necessary
+                setGrid(getData.mainGrid.grid);
             } catch (err) {
                 console.error('Error during polling:', err);
             }
         };
 
-        // Set up polling using setInterval
         const intervalId = setInterval(fetchData, 2000);
-
-        // Cleanup function to clear the interval on component unmount
         return () => clearInterval(intervalId);
-    }, []);
+    }, [playerID]);
 
     const audio = new Audio(sound);
     const cannonSound = new Audio(cannon);
+    const error1 = new Audio(error);
+    const shipExplosion1 = new Audio(shipExplosion);
     const seaSound = new Audio(sea);
 
     useEffect(() => {
         seaSound.play();
     }, []);
 
-
-
-    // Ship state
     const [ships] = useState<Ship[]>(INITIAL_SHIPS);
 
     useEffect(() => {
@@ -75,20 +67,25 @@ export const SeaGrid = ({ playerID }: { playerID: string }) => {
         return () => clearInterval(recharge);
     }, []);
 
-    // Handle the click on a cell to set it red if not already red
     const handleCellClick = (row: number, col: number) => {
-        if (stamina >= 12) {
-            // If the cell is already red, do nothing
-            if (grid[row][col]) return;
+        if (stamina >= STAMINA_DECREMENT) {
+            const cellValue = grid[row][col];
+            if (cellValue === 2 || cellValue === 4) return; // Already clicked
 
-            // Update the grid
             const newGrid = grid.map((r, rowIndex) =>
-                r.map((cell, colIndex) =>
-                    rowIndex === row && colIndex === col ? true : cell
-                )
+                r.map((cell, colIndex) => {
+                    if (rowIndex === row && colIndex === col) {
+                        if (cell === 3) {
+                            return 4; // Change solid brown to dark grey
+                        }
+                        return 2; // Regular cell to red
+                    }
+                    return cell;
+                })
             );
+
             setStamina((prevStamina) => Math.max(0, prevStamina - STAMINA_DECREMENT));
-            setGrid(newGrid); // Update the state with the modified grid
+            setGrid(newGrid);
         }
     };
 
@@ -100,7 +97,6 @@ export const SeaGrid = ({ playerID }: { playerID: string }) => {
                     style={{ height: `${stamina}%` }}
                 ></div>
             </div>
-            {/* Ships on the left */}
             <div className="sea-gridships-container">
                 <h2>Ships</h2>
                 <div className="sea-gridships-list">
@@ -118,22 +114,25 @@ export const SeaGrid = ({ playerID }: { playerID: string }) => {
                     ))}
                 </div>
             </div>
-
-            {/* Grid */}
-            <div
-                className="sea-grid-grid-container"
-                onDragOver={(e) => e.preventDefault()} // Prevent default to allow drop
-            >
+            <div className="sea-grid-grid-container" onDragOver={(e) => e.preventDefault()}>
                 {grid.map((row, rowIndex) =>
-                    row.map((isRed, colIndex) => (
+                    row.map((cell, colIndex) => (
                         <div
                             key={`${rowIndex}-${colIndex}`}
-                            className={`sea-grid-grid-cell ${isRed ? "red" : "blue"}`}
+                            className={`sea-grid-grid-cell ${cell === 2 ? "red" : cell === 3 ? "solid" : cell === 4 ? "clicked-solid" : ""}`}
                             onClick={() => {
-                                if (grid[rowIndex][colIndex]) return;
-                                audio.play();
-                                cannonSound.play();
-                                return handleCellClick(rowIndex, colIndex);
+                                if (stamina >= STAMINA_DECREMENT) {
+                                    if (cell === 1) {
+                                        audio.play();
+                                        cannonSound.play();
+                                    } else if (cell === 3) {
+                                        cannonSound.play();
+                                        shipExplosion1.play();
+                                    }
+                                    handleCellClick(rowIndex, colIndex);
+                                } else {
+                                    error1.play();
+                                }
                             }}
                         ></div>
                     ))

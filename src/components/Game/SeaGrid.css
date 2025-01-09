@@ -9,6 +9,14 @@
   font-family: Arial, sans-serif;
 }
 
+.sea-grid-grid-cell.solid {
+  background-color: rgb(128, 90, 46);
+}
+
+.sea-grid-grid-cell.clicked-solid {
+  background-color: #ec0000; /* Dark grey color */
+}
+
 /* Ships container (on the left) */
 .sea-gridships-container {
   display: flex;
@@ -85,7 +93,7 @@
 }
 
 .sea-grid-grid-cell.red {
-  background-color: #e63946; /* Red when clicked */
+  background-color: #64bfcf; /* Red when clicked */
 }
 
 .stamina-bar {
