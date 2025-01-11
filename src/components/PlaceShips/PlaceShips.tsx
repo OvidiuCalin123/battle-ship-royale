@@ -145,7 +145,7 @@ export const PlaceShips = ({ playerName, enemyPlayerName }: s) => {
                 <div className="status-indicator-container">
                     <div className={`status-indicator ${isReady ? 'ready' : 'not-ready'}`} title={isReady ? 'Ready' : 'Not Ready'} />
                 </div>
-                <h1 className="title">Place Ships</h1>
+                <h1 className="title" style={{ textShadow: '2px 2px 0 black, -2px 2px 0 black, 2px -2px 0 black, -2px -2px 0 black', }}>Place Ships</h1>
                 <div className="status-indicator-container">
                     <div className={`status-indicator ${enemyReady ? 'ready' : 'not-ready'}`} />
                 </div>
@@ -154,23 +154,35 @@ export const PlaceShips = ({ playerName, enemyPlayerName }: s) => {
                 <div className="player-info">
                     <div className="player-header">
                         <div className="player-name">
-                            <strong>Player 1:</strong> {playerName}
+                            <strong style={{ textShadow: '2px 2px 0 black, -2px 2px 0 black, 2px -2px 0 black, -2px -2px 0 black', }}>Player 1: {playerName}</strong>
                         </div>
                     </div>
                     <button
                         className={`ready-button ${isReady ? 'ready' : ''}`}
                         onClick={handleReadyClick}
+                        style={{
+                            padding: '14px 20px',
+                            fontSize: '18px',
+                            fontWeight: 'bold',
+                            cursor: 'pointer',
+                            backgroundColor: 'rgb(120 29 255)',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '8px',
+                            width: '100%',
+                            transition: 'background-color 0.3s, transform 0.2s ease',
+                        }}
                     >
                         Ready
                     </button>
                 </div>
-                <div className="game-grid">
+                <div className="game-grid" >
                     <PlayerGrid grid={grid} setGrid={setGrid} />
                 </div>
                 <div className="player-info">
                     <div className="player-header">
                         <div className="player-name">
-                            <strong>Player 2:</strong> {enemyPlayerName}
+                            <strong style={{ textShadow: '2px 2px 0 black, -2px 2px 0 black, 2px -2px 0 black, -2px -2px 0 black', }}>Player 2: {enemyPlayerName}</strong>
                         </div>
                     </div>
                 </div>

@@ -8,13 +8,11 @@ function App() {
     <div className="App">
       <header className="App-header">
         <div style={{
-          display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
           height: '100vh',
           color: 'white',
-          padding: '20px',
           backgroundImage: `url(${lobbyBack})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',

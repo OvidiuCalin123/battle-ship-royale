@@ -78,7 +78,18 @@ export const PlayerGrid = ({ grid, setGrid }: PlayerGridProps) => {
     return (
         <div className="player-grid-container">
             {/* Ships to drag */}
-            <div className="ships-container">
+            <div className="ships-container" style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '100%',
+                maxWidth: '400px',
+                padding: '50px',
+                backgroundColor: '#f4f4f9', // Light background for a soft feel
+                borderRadius: '15px',
+                boxShadow: '0px 80px 80px rgba(0, 0, 0, 0.8)',
+            }}>
                 {ships.map((ship) => (
                     <div
                         key={ship.id}
@@ -98,6 +109,17 @@ export const PlayerGrid = ({ grid, setGrid }: PlayerGridProps) => {
             <div
                 className="grid-container"
                 onDragOver={(e) => e.preventDefault()}
+                style={{
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '100%',
+                    maxWidth: '400px',
+                    padding: '50px',
+                    backgroundColor: 'rgb(104 159 159)', // Light background for a soft feel
+                    borderRadius: '15px',
+                    boxShadow: '0px 80px 80px rgba(0, 0, 0, 0.8)',
+                }}
             >
                 {grid.map((row: any, rowIndex: any) =>
                     row.map((cell: any, colIndex: any) => (

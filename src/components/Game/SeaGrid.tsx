@@ -42,7 +42,7 @@ export const SeaGrid = ({ playerID }: { playerID: string }) => {
             }
         };
 
-        const intervalId = setInterval(fetchData, 2000);
+        const intervalId = setInterval(fetchData, 500);
         return () => clearInterval(intervalId);
     }, [playerID]);
 
